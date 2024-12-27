@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"context"
@@ -16,14 +16,14 @@ type Country struct {
 func FetchCountries() ([]Country, error) {
 	graphqlClient := graphql.NewClient("https://countries.trevorblades.com/")
 	graphqlRequest := graphql.NewRequest(`
-		{
-			countries {
-				code
-				name
-				currency
-			}
-		}
-	`)
+        {
+            countries {
+                code
+                name
+                currency
+            }
+        }
+    `)
 
 	var response struct {
 		Countries []Country `json:"countries"`

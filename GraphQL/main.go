@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-
 	fmt.Println("Ejemplo de GraphQL en Go")
 
 	countries, err := service.FetchCountries()
@@ -19,5 +18,4 @@ func main() {
 	for _, country := range countries {
 		fmt.Printf("Código: %s, Nombre: %s, Moneda: %s\n", country.Code, country.Name, country.Currency)
 	}
-
 }
