@@ -1,53 +1,23 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
+	"log"
+
+	"github.com/josiasazmitia/go/GraphQL/service"
 )
 
 func main() {
 
-	jsonData := map[string]string{
-		"query": `
-		{
-			countries{
-			code,
-			name,
-			currency
-			}
-		}
-		`,
-	}
+	fmt.Println("Ejemplo de GraphQL en Go")
 
-	jsonValues, err := json.Marshal(jsonData)
-
+	countries, err := service.FetchCountries()
 	if err != nil {
-		panic(err)
+		log.Fatalf("Error al obtener países: %v", err)
 	}
 
-	request, err := http.NewRequest("POST", "https://countries.trevorblades.com/", bytes.NewBuffer(jsonValues))
-	if err != nil {
-		panic(err)
+	for _, country := range countries {
+		fmt.Printf("Código: %s, Nombre: %s, Moneda: %s\n", country.Code, country.Name, country.Currency)
 	}
-	request.Header.Set("Content-Type", "application/json")
-
-	client := &http.Client{}
-	response, err := client.Do(request)
-	if err != nil {
-		panic(err)
-	}
-
-	defer response.Body.Close()
-
-	data, err := ioutil.ReadAll(response.Body)
-
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(string(data))
 
 }
